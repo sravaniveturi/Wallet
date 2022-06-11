@@ -1,3 +1,7 @@
 ls -la
 ls -ld *./
 ls -ld D*
+chmod 770 filename.txt
+top -o TIME | head -20
+top -o MEM | head -20
+cp brewfile.txt /private/tmp 
