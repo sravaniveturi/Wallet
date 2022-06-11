@@ -23,10 +23,18 @@ OS COmmands
 4. top -o MEM | head -15
 5. kill -9 processid
 6.  Symlink is a soft link and is created to point to another file or a folder in th e system.
-It is like a shortcut.
+It is like a shortcut to the text file.
 To create a symlink, use the COmmands
 
 ln -s <path of file to be linked> <path of link to be created>
 Eg: 
 
 ln -s /vapasi/CommandLine/input.txt inp.txt
+
+
+Networking
+1. ping <server> - sends packets of data to specific IP address and lets us know how long it takes to send that data.
+2. nslookup finds the server information for the domain we specify. For eg, if we type nslookup gitlab.com, it returns the server address.
+3. arp -a
+4. hostname
+
