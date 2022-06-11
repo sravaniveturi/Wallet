@@ -5,3 +5,28 @@ chmod 770 filename.txt
 top -o TIME | head -20
 top -o MEM | head -20
 cp brewfile.txt /private/tmp 
+
+8a.  awk '$2 ~ /J/ {print $1,$2,$3}' employee.txt
+b.   awk '$4 == "Technology" {print}' employee.txt | sort -k2 > emp.txt
+c.   awk '$4 == "Technology" && $3 == "Sysadmin" {print $2,$5}' employee.txt > emp.txt
+d.   awk '{SUM+=substr($5,2)}END{print SUM/NR}' employee.txt
+e.   awk '!a[$3]++{print $3}' employee.txt
+f.   awk '$3 == "Developer" {print}' employee.txt | wc -l
+g.   awk '!a[$5]++{print substr($5,2)}' employee.txt
+
+
+OS COmmands
+
+1. getconf LONG_BIT
+2. sudo shutdown
+3. echo $0
+4. top -o MEM | head -15
+5. kill -9 processid
+6.  Symlink is a soft link and is created to point to another file or a folder in th e system.
+It is like a shortcut.
+To create a symlink, use the COmmands
+
+ln -s <path of file to be linked> <path of link to be created>
+Eg: 
+
+ln -s /vapasi/CommandLine/input.txt inp.txt
