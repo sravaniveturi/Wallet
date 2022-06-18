@@ -1,6 +1,6 @@
 package com.tw.money;
 
-import com.tw.money.exception.InvalidCurrencyException;
+import com.tw.money.exception.InvalidAmountException;
 import com.tw.money.exception.LowBalanceException;
 
 import java.util.Objects;
@@ -18,9 +18,9 @@ public class Wallet {
         this.currencyType = currencyType;
     }
 
-    public void addMoney(CurrencyType currencyType, double amount) throws LowBalanceException {
+    public void addMoney(CurrencyType currencyType, double amount) throws InvalidAmountException {
         if (amount < 0)
-            throw new LowBalanceException();
+            throw new InvalidAmountException();
         this.amount += (amount * currencyType.getMultiplier());
     }
 
@@ -37,11 +37,8 @@ public class Wallet {
     }
 
 
-    public Wallet findSum(CurrencyType givenCurrency) throws InvalidCurrencyException {
-        if (givenCurrency != CurrencyType.DOLLAR && givenCurrency != CurrencyType.RUPEES)
-            throw new InvalidCurrencyException();
+    public Wallet findSum(CurrencyType givenCurrency) {
         double sum = this.amount / givenCurrency.getMultiplier();
-        System.out.println("sum:" + sum);
         return new Wallet(givenCurrency, sum);
     }
 
