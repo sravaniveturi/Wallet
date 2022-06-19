@@ -29,7 +29,6 @@ public class Wallet {
         if (amount < amountInRupees)
             throw new LowBalanceException();
         this.amount -= amountInRupees;
-        System.out.println("amount: " + this.amount);
     }
 
     private double convert(double amount, CurrencyType currencyType) {
