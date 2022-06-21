@@ -2,77 +2,82 @@ package com.tw.money;
 
 import com.tw.money.exception.InvalidAmountException;
 import com.tw.money.exception.LowBalanceException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WalletTest {
 
-    @Test
-    void checkAddMoneyHundredDollarsIsSuccessfull() throws InvalidAmountException {
-        Wallet wallet = new Wallet();
-        wallet.addMoney(CurrencyType.DOLLAR, 100);
+    Wallet wallet;
 
-        assertTrue(wallet.equals(new Wallet(CurrencyType.RUPEES, 7814)));
+    @BeforeEach
+    void setUp(){
+        wallet = new Wallet();
     }
 
     @Test
-    void checkAddMoneyHundredRupeesIsSuccessfull() throws InvalidAmountException {
-        Wallet wallet = new Wallet();
-        wallet.addMoney(CurrencyType.RUPEES, 100);
-        wallet.addMoney(CurrencyType.RUPEES, 100);
+    void testCanAddHundredDollarsToWallet() throws InvalidAmountException {
+        Money hundredRupees = new Money(100, CurrencyType.RUPEES);
+        wallet.addMoney(hundredRupees);
 
-        assertTrue(wallet.equals(new Wallet(CurrencyType.RUPEES, 200)));
+        assertEquals(wallet.getBalance(),hundredRupees);
     }
 
     @Test
-    void testAddMoneyNotSuccessfull() {
-        Wallet wallet = new Wallet();
-        assertThrows(InvalidAmountException.class, () -> wallet.addMoney(CurrencyType.DOLLAR, -100));
+    void shouldThrowExceptionWhenAddAmountNotSuccessFul() {
+        Money invalidMoney = new Money(-100, CurrencyType.DOLLAR);
+        assertThrows(InvalidAmountException.class, () -> wallet.addMoney(invalidMoney));
     }
 
     @Test
-    void takeAmountFromWalletIsSuccessfull() throws InvalidAmountException, LowBalanceException {
-        Wallet wallet = new Wallet();
-        wallet.addMoney(CurrencyType.DOLLAR, 100);
+    void testCanTakeAmountFiftyRupeesFromWallet() throws InvalidAmountException, LowBalanceException {
+        Money hundredRupees = new Money(100, CurrencyType.RUPEES);
+        Money fiftyRupees = new Money(50, CurrencyType.RUPEES);
 
-        wallet.takeMoney(CurrencyType.RUPEES, 50);
-        Wallet expectedValue = new Wallet(CurrencyType.RUPEES, 7764);
+        wallet.addMoney(hundredRupees);
+        wallet.takeMoney(fiftyRupees);
 
-        assertTrue(expectedValue.equals(wallet));
+        assertEquals(wallet.getBalance(),fiftyRupees);
     }
 
     @Test
-    void throwExceptionWithLowBalanceInWallet() throws LowBalanceException, InvalidAmountException {
-        Wallet wallet = new Wallet();
-        wallet.addMoney(CurrencyType.RUPEES, 100);
+    void throwExceptionWithLowBalanceInWallet() throws InvalidAmountException {
+        Money hundredRupees = new Money(100, CurrencyType.RUPEES);
+        Money hundredFiftyRupees = new Money(150, CurrencyType.RUPEES);
 
-        assertThrows(LowBalanceException.class, () -> wallet.takeMoney(CurrencyType.RUPEES, 150));
+        wallet.addMoney(hundredRupees);
+
+        assertThrows(LowBalanceException.class, () -> wallet.takeMoney(hundredFiftyRupees));
     }
 
     @Test
     void findSumOfMoneyInWalletInDollars() throws InvalidAmountException {
-        Wallet wallet = new Wallet();
-        wallet.addMoney(CurrencyType.DOLLAR, 50);
-        wallet.addMoney(CurrencyType.RUPEES, 78.14);
+        Money fiftyDollars = new Money(50, CurrencyType.DOLLAR);
+        Money seventyEightRupees = new Money(78.14, CurrencyType.RUPEES);
 
-        Wallet actualValue = wallet.findSum(CurrencyType.DOLLAR);
-        Wallet expectedValue = new Wallet(CurrencyType.DOLLAR, 51);
+        wallet.addMoney(fiftyDollars);
+        wallet.addMoney(seventyEightRupees);
 
-        assertTrue(expectedValue.equals(actualValue));
+        Money actualValue = wallet.findSum(CurrencyType.DOLLAR);
+        Money expectedValue = new Money(51, CurrencyType.DOLLAR);
+
+        assertEquals(expectedValue, actualValue);
     }
 
     @Test
     void findSumOfMoneyInWalletInRupees() throws InvalidAmountException {
-        Wallet wallet = new Wallet();
-        wallet.addMoney(CurrencyType.DOLLAR, 100);
-        wallet.addMoney(CurrencyType.RUPEES, 10);
+        Money hundredDollars = new Money(100, CurrencyType.DOLLAR);
+        Money tenRupees = new Money(10, CurrencyType.RUPEES);
 
-        Wallet actualValue = wallet.findSum(CurrencyType.RUPEES);
-        Wallet expectedValue = new Wallet(CurrencyType.RUPEES, 7824);
 
-        assertTrue(expectedValue.equals(actualValue));
+        wallet.addMoney(hundredDollars);
+        wallet.addMoney(tenRupees);
+
+        Money actualValue = wallet.findSum(CurrencyType.RUPEES);
+        Money expectedValue = new Money(7824, CurrencyType.RUPEES);
+
+        assertEquals(expectedValue, actualValue);
     }
 
 }

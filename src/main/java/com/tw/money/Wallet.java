@@ -3,54 +3,32 @@ package com.tw.money;
 import com.tw.money.exception.InvalidAmountException;
 import com.tw.money.exception.LowBalanceException;
 
-import java.util.Objects;
-
 public class Wallet {
-    private double amount;
-    private final CurrencyType currencyType;
+    private Money balance;
 
     public Wallet() {
-        this.currencyType = CurrencyType.RUPEES;
+        balance = new Money();
     }
 
-    public Wallet(CurrencyType currencyType, double value) {
-        this.amount = value;
-        this.currencyType = currencyType;
-    }
-
-    public void addMoney(CurrencyType currencyType, double amount) throws InvalidAmountException {
-        if (amount < 0)
+    public void addMoney(Money moneyToAdd) throws InvalidAmountException {
+        if (moneyToAdd.isAmountInvalid())
             throw new InvalidAmountException();
-        this.amount += (amount * currencyType.getMultiplier());
+        balance.addAmount(moneyToAdd);
     }
 
-    public void takeMoney(CurrencyType currencyType, double amountNeeded) throws LowBalanceException {
-        double amountInRupees = convert(amountNeeded, currencyType);
-        if (amount < amountInRupees)
+    public void takeMoney(Money moneyToTake) throws LowBalanceException {
+        if (balance.isAmountLess(moneyToTake))
             throw new LowBalanceException();
-        this.amount -= amountInRupees;
-    }
-
-    private double convert(double amount, CurrencyType currencyType) {
-        return amount * currencyType.getMultiplier();
+        balance.takeAmount(moneyToTake);
     }
 
 
-    public Wallet findSum(CurrencyType givenCurrency) {
-        double sum = this.amount / givenCurrency.getMultiplier();
-        return new Wallet(givenCurrency, sum);
+    public Money findSum(CurrencyType givenCurrency) {
+        double sum = (balance.getAmount() / givenCurrency.getMultiplier());
+        return new Money(sum, givenCurrency);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Wallet wallet = (Wallet) o;
-        return Double.compare(wallet.amount, amount) == 0 && currencyType == wallet.currencyType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(amount, currencyType);
+    public Money getBalance() {
+        return balance.getMoney();
     }
 }
