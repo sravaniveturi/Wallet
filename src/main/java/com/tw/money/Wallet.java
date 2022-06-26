@@ -4,31 +4,32 @@ import com.tw.money.exception.InvalidAmountException;
 import com.tw.money.exception.LowBalanceException;
 
 public class Wallet {
-    private Money balance;
+    private final Money balance;
 
-    public Wallet() {
-        balance = new Money();
+    private Wallet(Money money) {
+        balance = money;
     }
-
-    public void addMoney(Money moneyToAdd) throws InvalidAmountException {
+    public static Wallet createWallet(Money money){
+        return new Wallet(money);
+    }
+    public Wallet addMoney(Money moneyToAdd) throws InvalidAmountException {
         if (moneyToAdd.isAmountInvalid())
             throw new InvalidAmountException();
-        balance.addAmount(moneyToAdd);
+        Money newAmount = balance.addAmount(moneyToAdd);
+         return createWallet(newAmount);
     }
 
-    public void takeMoney(Money moneyToTake) throws LowBalanceException {
+    public Wallet takeMoney(Money moneyToTake) throws LowBalanceException {
         if (balance.isAmountLess(moneyToTake))
             throw new LowBalanceException();
-        balance.takeAmount(moneyToTake);
+        Money newAmount = balance.takeAmount(moneyToTake);
+        return Wallet.createWallet(newAmount);
     }
 
 
-    public Money findSum(CurrencyType givenCurrency) {
-        double sum = (balance.getAmount() / givenCurrency.getMultiplier());
-        return new Money(sum, givenCurrency);
+    public double findBalance(CurrencyType currency) {
+        return currency.convert(this.balance.getAmount());
     }
 
-    public Money getBalance() {
-        return balance.getMoney();
-    }
+
 }

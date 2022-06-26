@@ -4,43 +4,40 @@ import java.util.Objects;
 
 public class Money {
 
-    private double amount;
-    private CurrencyType currencyType;
+    private final double amount;
+    private final CurrencyType currencyType;
 
-    public Money() {
 
-    }
-
-    public Money(double amount, CurrencyType currencyType) {
+    private Money(double amount, CurrencyType currencyType) {
         this.amount = amount;
         this.currencyType = currencyType;
+    }
+
+    public static Money createMoney(double amount, CurrencyType currencyType){
+        return new Money(amount, currencyType);
     }
 
     public boolean isAmountInvalid() {
         return (this.amount < 0);
     }
 
-    public void addAmount(Money moneyToAdd) {
-        this.amount += (moneyToAdd.amount * moneyToAdd.currencyType.getMultiplier());
-        this.currencyType = CurrencyType.RUPEES;
+    public Money addAmount(Money moneyToAdd) {
+        double newAmount = this.amount + (moneyToAdd.currencyType.convertToRupees(moneyToAdd.amount));
+        return createMoney(newAmount, CurrencyType.RUPEES);
     }
 
-    public void takeAmount(Money moneyToTake) {
-        double amountInRupees = moneyToTake.convert();
-        this.amount -= amountInRupees;
+    public Money takeAmount(Money moneyToTake) {
+        double amountInRupees = this.amount - moneyToTake.currencyType.convertToRupees(moneyToTake.amount);
+        return createMoney(amountInRupees, CurrencyType.RUPEES);
     }
 
     public boolean isAmountLess(Money money) {
-        double amountInRupees = money.convert();
+        double amountInRupees = money.currencyType.convert(money.amount);
         return (this.amount < amountInRupees);
     }
 
-    private double convert() {
-        return (this.amount * this.currencyType.getMultiplier());
-    }
-
     public double getAmount() {
-        return this.amount;
+        return amount;
     }
 
     @Override
@@ -54,9 +51,5 @@ public class Money {
     @Override
     public int hashCode() {
         return Objects.hash(amount, currencyType);
-    }
-
-    public Money getMoney() {
-        return this;
     }
 }
