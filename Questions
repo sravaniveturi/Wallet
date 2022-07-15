@@ -1,0 +1,60 @@
+Week 1: Assignment Command Line
+CLI Exercises:
+Command Line:
+1. List how many files (hidden files included) are there in your home directory
+2. List how many directories (hidden dirs included) are there in your home directory
+3. List all files/directories starting with letter “D” in your home directory
+4. Change permissions to a text file by giving read-write access to owners and groups only.
+5. Find out which processes are taking up maximum CPU
+6. Find out which processes are taking up more memory
+7. Copy a text file from home directory to “tmp” directory
+8. Given a text file, employee.txt, find out the following
+9. List all employee ids, names and role whose name starts with “J”
+10. List all fields, sorted by name in ascending order whose department is “Technology” and write them into emp.txt
+11. List name and salaries of employees who work in “Technology” department as a “Sysadmin” and overwrite emp.txt
+12. Calculate the average salary of all employees
+13. List the distinct departments in the organisation.
+14. Count the number of employees who are developers
+15. Print the distinct salaries of employees without $ sign
+
+
+OS:
+1. Find out how to determine the OS architecture? (Is it 32 bit or 64 bit)
+2. How to shutdown the OS from the command line.
+3. Find out what shell you are using.
+4. Find out which processes are taking more memory from the command line ?
+5. How do you terminate one process from the command line ?
+6. What is a symlink ? And how do you create one ?
+
+Networking:
+Learn the following commands(in linux) and their respective uses
+1. ping.
+2. nslookup.
+3. command to find ip address and mac id of the interface
+4. find the hostname of the machine.
+
+Employee.txt(input file)
+100  Thomas  Manager    Sales       $5,000
+200  Jason   Developer  Technology  $5,500
+300  Sanjay  Sysadmin   Technology  $7,000
+400  Nisha   Manager    Marketing   $9,500
+500  Randy   DBA        Technology  $6,000
+600  Jonny	 Developer  Technology  $7,000
+700  Thomas  Sysadmin   Marketing   $6,000 (edited) 
+
+
+
+
+
+Week 1: Wallet Assignment - TDD
+Requirement 1: As a wallet owner, I would like to be able to put money into my wallet so that I can take it out later.
+Requirement 2: As a wallet owner, I would like to be able to take a specified amount of money out of the wallet.
+Requirement 3:
+As a wallet owner,
+I want to know the total money my wallet has for the preferred currency
+Given preferred currency is Rs.,
+When my wallet has Rs.50 & $1
+Then the sum of money in the wallet is Rs.124.85
+Given Preferred currency is $
+When my wallet has Rs.74.85, $1, Rs.149.7
+Then sum of money in the wallet is $4 (edited) 
